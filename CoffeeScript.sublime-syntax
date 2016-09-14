@@ -76,46 +76,56 @@ contexts:
           captures:
             0: punctuation.definition.comment.coffee
           pop: true
-        - match: "(@(?:module|namespace|submodule))(?:\\s+([\\w\\-\\.]+))?"
+        - match: "^[#\\s]*(@(?:module|namespace|submodule))(?:\\s+([\\w\\-\\.]+))?"
           captures:
             1: keyword.other.withclass.yuidoc
             2: support.other.module
-        - match: "(@(?:class|extends))(?:\\s+([\\w\\-\\.]+))?"
+        - match: "^[#\\s]*(@(?:class|extends))(?:\\s+([\\w\\-\\.]+))?"
           captures:
             1: keyword.other.withclass.yuidoc
             2: storage.type.annotation.coffee
-        - match: "(@(?:for|type|requires|uses|extension|extensionfor|extension_for))(?:\\s+([\\w\\-\\.]+))?"
+        - match: "^[#\\s]*(@(?:for|type|requires|uses|extension|extensionfor|extension_for))(?:\\s+([\\w\\-\\.]+))?"
           captures:
             1: keyword.other.withclass.yuidoc
             2: storage.type.annotation.coffee
-        - match: "(@(?:method|event|property|attribute|config))(?:\\s+([\\w\\-\\.]+))?"
+        - match: "^[#\\s]*(@(?:method|event|attribute|config))(?:\\s+([\\w\\-\\.]+))?"
           captures:
             1: keyword.other.withfunction.yuidoc
             2: storage.type.instance.coffee
-        - match: "(@(?:return|throws))(?:\\s+({[^{}]*}))?"
+        - match: "^[#\\s]*(@(?:return|throws))(?:\\s+({[^{}]*}))?"
           captures:
             1: keyword.other.withtype.yuidoc
             2: storage.type.annotation.coffee
-        - match: "(@param)(\\s+(?:\\[[^\\[\\]]*\\]|[\\w\\-\\.]+))(?:\\s+({[^{}]*}))?"
+        - match: "^[#\\s]*(@(?:param|property))(\\s+(?:\\[[^\\[\\]]*\\]|[@\\w\\-\\.]+))(?:\\s+({[^{}]*}))?"
           captures:
             1: keyword.other.withtype.yuidoc
             2: storage.type.instance.coffee
             3: storage.type.annotation.coffee
-        - match: "(@param)(?:\\s+({[^{}]*}))(?:\\s+(\\[[^\\[\\]]*\\]|[\\w\\-\\.]+))"
+        - match: "^[#\\s]*(@(?:param|property))(?:\\s+({[^{}]*}))(?:\\s+(\\[[^\\[\\]]*\\]|[@\\w\\-\\.]+))"
           captures:
             1: keyword.other.withtype.yuidoc
             2: storage.type.annotation.coffee
             3: storage.type.instance.coffee
-        - match: "@param"
-          scope: keyword.other.yuidoc
-        - scope: keyword.other.noargs.yuidoc
-          match: "@(?:main|constructor|static|final|readOnly|writeOnce)"
-        - scope: keyword.other.noargs.yuidoc
-          match: "@(?:element|optional|required|private|protected|example|chainable)"
-        - scope: keyword.other.noargs.yuidoc
-          match: "@(?:deprecated|since|async|beta|bubbles|default)"
-        - scope: keyword.other.noargs.yuidoc
-          match: "@(?:parents|contents|interface|author|broadcast|category)"
+        - match: "^[#\\s]*(@(?:param|property))"
+          captures:
+            1: keyword.other.yuidoc
+        - captures:
+            1: keyword.other.noargs.yuidoc
+          match: "^[#\\s]*(@(?:main|constructor|static|final|readOnly|writeOnce))"
+        - captures:
+            1: keyword.other.noargs.yuidoc
+          match: "^[#\\s]*(@(?:element|optional|required|private|protected|example|chainable))"
+        - captures:
+            1: keyword.other.noargs.yuidoc
+          match: "^[#\\s]*(@(?:deprecated|since|async|beta|bubbles|default))"
+        - captures:
+            1: keyword.other.noargs.yuidoc
+          match: "^[#\\s]*(@(?:parents|contents|interface|author|broadcast|category))"
+        - match: '`'
+          push:
+            - meta_scope: string
+            - match: '`'
+              pop: true
     - match: '(#)(?!\{).*$\n?'
       scope: comment.line.number-sign.coffee
       captures:
